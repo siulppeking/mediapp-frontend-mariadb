@@ -1,6 +1,72 @@
-
-<div>
-    @for (i of patients; track $index) {
-        <p>{{ i.firstName }} {{ i.lastName }}</p>
+<!-- <div>
+    @for (pat of patients; track $index) {
+        <p>{{ pat.firstName }} {{ pat.lastName }}</p>
     }
+</div> -->
+
+<!-- <div>
+    @for (pat of patients; track $index) {
+        <p>{{ pat.firstName }} {{ pat.lastName }}</p>
+    }
+</div> -->
+
+<router-outlet></router-outlet>
+
+<mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+</mat-form-field>
+
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+        <ng-container matColumnDef="idPatient">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+            <td mat-cell *matCellDef="let row"> {{row.idPatient}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="firstName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> FIRSTNAME </th>
+            <td mat-cell *matCellDef="let row"> {{row.firstName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="lastName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> LASTNAME </th>
+            <td mat-cell *matCellDef="let row"> {{row.lastName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="dni">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> DNI </th>
+            <td mat-cell *matCellDef="let row"> {{row.dni}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ACTIONS </th>
+            <td mat-cell *matCellDef="let row">
+                <!-- <button mat-flat-button routerLink="/pages/patient/edit/{{row.idPatient}}"> -->
+                <button mat-flat-button [routerLink]="['edit', row.idPatient]">
+                    <span>Edit</span>
+                    <mat-icon>mode_edit</mat-icon>
+                </button>
+
+                <button matButton="outlined" class="delete-button">
+                    <span>Delete</span>
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 50, 100, 200]" showFirstLastButtons aria-label="Select page">
+    </mat-paginator>
+
+    <button mat-flat-button color="primary" style="float: right;" routerLink="/pages/patient/new">
+        <span>New</span>
+        <mat-icon>add</mat-icon>
+    </button>
+
 </div>
